@@ -74,5 +74,24 @@ namespace EmployeePayRollWithADODotNet
             }
             return EmployeeList;
         }
+        public bool UpdateEmployeeSalary(EmployeeDetails obj)
+        {
+            Connection();
+            SqlCommand com = new SqlCommand("UpdateEmployee", connect);
+            com.CommandType = CommandType.StoredProcedure;
+            com.Parameters.AddWithValue("@Id", obj.EmpId);
+            com.Parameters.AddWithValue("@Salary", obj.Salary);
+            connect.Open();
+            int i = com.ExecuteNonQuery();
+            connect.Close();
+            if (i >= 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }
