@@ -19,9 +19,9 @@ namespace EmployeePayRollWithADODotNet
         public bool AddEmployee(EmployeeDetails obj)
         {
             Connection();
-            SqlCommand command = new SqlCommand("AddEmployee", connect);
+            SqlCommand command = new SqlCommand("spAddEmployee", connect);
             command.CommandType = CommandType.StoredProcedure;
-            //command.Parameters.AddWithValue("@EmpId", obj.EmpId);
+            command.Parameters.AddWithValue("@Id", obj.Id);
             command.Parameters.AddWithValue("@Name", obj.Name);
             command.Parameters.AddWithValue("@Salary", obj.Salary);
             command.Parameters.AddWithValue("@StartDate", obj.Startdate);
@@ -59,7 +59,7 @@ namespace EmployeePayRollWithADODotNet
                 EmployeeList.Add(
                     new EmployeeDetails
                     {
-                        EmpId = Convert.ToInt32(data["Id"]),
+                        Id = Convert.ToInt32(data["Id"]),
                         Name = Convert.ToString(data["Name"]),
                         Salary = Convert.ToInt32(data["Salary"]),
                         Startdate = Convert.ToDateTime(data["StartDate"]),
@@ -68,7 +68,7 @@ namespace EmployeePayRollWithADODotNet
                         Department = Convert.ToString(data["Department"]),
                         Deduction = Convert.ToInt32(data["Deductions"]),
                         Taxable_Pay = Convert.ToInt32(data["Taxable_Pay"]),
-                        Net_Pay = Convert.ToInt32(data["Net_Pay"]),
+                        Net_Pay = Convert.ToInt32(data["Net_Pay"])
                     }
                     );
             }
@@ -77,20 +77,40 @@ namespace EmployeePayRollWithADODotNet
         public bool UpdateEmployeeSalary(EmployeeDetails obj)
         {
             Connection();
-            SqlCommand com = new SqlCommand("UpdateEmployee", connect);
+            SqlCommand com = new SqlCommand("spUpdateEmployee", connect);
             com.CommandType = CommandType.StoredProcedure;
-            com.Parameters.AddWithValue("@Id", obj.EmpId);
+            com.Parameters.AddWithValue("@Id", obj.Id);
+            com.Parameters.AddWithValue("@Name", obj.Name);
             com.Parameters.AddWithValue("@Salary", obj.Salary);
             connect.Open();
-            int i = com.ExecuteNonQuery();
+            int result = com.ExecuteNonQuery();
             connect.Close();
-            if (i >= 1)
+            if (result >= 1)
             {
                 return true;
             }
             else
             {
                 return false;
+            }
+        }
+        public void DeleteEmployeeDetails(EmployeeDetails emp)
+        {
+            Connection();
+            SqlCommand command = new SqlCommand("spDeleteEmployee", connect);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@Id", emp.Id);
+            command.Parameters.AddWithValue("@Name", emp.Name);
+            connect.Open();
+            int result = command.ExecuteNonQuery();
+            connect.Close();
+            if(result >= 1)
+            {
+                Console.WriteLine("Employee details deleted successfully");
+            }
+            else
+            {
+                Console.WriteLine("Failed to delete employee details");
             }
         }
     }

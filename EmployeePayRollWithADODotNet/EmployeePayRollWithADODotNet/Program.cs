@@ -6,7 +6,7 @@ class program
     {
         EmpRepository repository = new EmpRepository();
         bool check = true;
-        Console.WriteLine("1.Add Employee data\n2.Retrive Employee data\n3.Update salary");
+        Console.WriteLine("1.Add Employee data\n2.Retrive Employee data\n3.Update salary\n4.Delete employee details");
         while(check)
         {
             Console.WriteLine("Choose an option");
@@ -15,8 +15,8 @@ class program
             {
                 case 1:
                     EmployeeDetails details = new EmployeeDetails();
-                    details.EmpId = 1;
-                    details.Name = "Arpan";
+                    details.Id = 5;
+                    details.Name = "";
                     details.Salary = 40000;
                     details.Startdate = DateTime.Now;
                     details.Gender = "M";
@@ -28,13 +28,23 @@ class program
                     repository.AddEmployee(details);
                     break;
                 case 2:
-                    repository.RetrieveEmployeeData();
+                    List<EmployeeDetails> empList = repository.RetrieveEmployeeData();
+                    foreach (EmployeeDetails data in empList)
+                    {
+                        Console.WriteLine(data.Id + " " + data.Name + " " + data.Salary + " " + data.Gender + " " + data.Startdate  + " " + data.PhoneNumber + " " + data.Department + " " + data.Deduction + " " + data.Taxable_Pay + " " + data.Net_Pay );
+                    }
                     break;
                 case 3:
                     EmployeeDetails detail = new EmployeeDetails();
-                    detail.EmpId = 1;
+                    detail.Id = 1;
                     detail.Salary = 30000;
                     repository.UpdateEmployeeSalary(detail);
+                    break;
+                case 4:
+                    EmployeeDetails employee = new EmployeeDetails();
+                    employee.Id = 5;
+                    employee.Name = "Arpan";
+                    repository.DeleteEmployeeDetails(employee);
                     break;
             }
         }
