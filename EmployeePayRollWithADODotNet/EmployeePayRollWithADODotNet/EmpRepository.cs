@@ -131,5 +131,22 @@ namespace EmployeePayRollWithADODotNet
                 return false;
             }
         }
+        public bool FindSumAvgMaxMin(EmployeeDetails emp)
+        {
+            Connection();
+            SqlCommand command = new SqlCommand("spFindSumAvgMinMax", connect);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("Gender", emp.Gender);
+            connect.Open();
+            int result = command.ExecuteNonQuery();
+            if(result>=1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

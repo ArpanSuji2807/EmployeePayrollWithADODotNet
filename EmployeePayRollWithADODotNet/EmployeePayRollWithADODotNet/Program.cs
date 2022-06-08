@@ -59,6 +59,16 @@ class program
                         }
                     }
                     break;
+                case 6:
+                    EmployeeDetails emp = new EmployeeDetails();
+                    Console.WriteLine("Enter the gender");
+                    emp.Gender = Console.ReadLine();
+                    repository.FindSumAvgMaxMin(emp);
+                    if(emp.Gender == "M")
+                    {
+                        Console.WriteLine(emp.Salary);
+                    }
+                    break;
             }
         }
     }
